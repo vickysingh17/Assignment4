@@ -1,6 +1,5 @@
 <template>
     <div>
-        <MyHeader/>
         <div class = "topContainer">
             <div>
                 <div class = "title">Edit Product</div>
@@ -16,14 +15,15 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import ProductEditInfo from './ProductEditInfo.vue';
 import MyHeader from './MyHeader.vue';
+import { ProductType } from '@/constants/constants';
 
 @Component({
     components: { ProductEditInfo,
     MyHeader }
 })
 export default class ProductDetail extends Vue {
-    @Prop() productId: string|undefined;
-    productInfo : object|undefined;
+    @Prop() productId!: string;
+    productInfo!: ProductType;
 
     created() {
         let productObjArr = JSON.parse(<string>localStorage.getItem('dataId'));

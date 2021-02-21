@@ -2,7 +2,8 @@
 <div  v-bind:style="{backgroundColor: bgColor}">
     <img
         :src = "imageURL"
-        class = "logoImage">
+        :style="{width: logoDimensions.width,
+                height:logoDimensions.height}">
 </div>
 
 </template>
@@ -12,19 +13,15 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component
 export default class ProductListItemLogo extends Vue {
-    @Prop() productLogo: string|undefined;
+    @Prop() productLogo!: string;
+    @Prop() logoDimensions !: object;
     imageURL : string = '';
     bgColor: string = '';
  
     created () {
-        let productObjArr = JSON.parse(<string>localStorage.getItem('cardNetwork'));
-        fetch(productObjArr[(<string>this.productLogo)].logoURL)
-        .then(response => response.blob())
-        .then(images => {
-            console.log(images)
-            this.imageURL = URL.createObjectURL(images); 
-        })
-        this.bgColor = productObjArr[(<string>this.productLogo)].logoBgColor;
+        let cardNetworkArr = JSON.parse(<string>localStorage.getItem('cardNetwork'));
+        this.imageURL = cardNetworkArr[(this.productLogo)].logoURL;
+        this.bgColor = cardNetworkArr[(this.productLogo)].logoBgColor;
     }
 }
 </script>

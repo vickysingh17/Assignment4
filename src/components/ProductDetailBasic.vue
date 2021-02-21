@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class = "Wrapper">
         <div class='bodyHeader'>Basic Information</div>
         <div class='basicInfoContainer'>
             <div class="productDetail">Product Name</div>
@@ -11,9 +11,16 @@
             <div class="productDetail">BIN Number</div>
             <div class="productDetail">{{productInfo.bin}}</div>
             <div class="productDetail">Connector URL</div>
-            <div class="productDetail">{{productInfo.config.connectorURL}}</div>
+            <a href="" class="productDetail"
+            @click.prevent>{{productInfo.config.connectorURL}}</a>
             <div class="productDetail">Card Network</div>
-            <div class="productDetail">{{productInfo.cardNetwork}}</div>
+            <div class="productDetail">
+                <ProductListItemLogo 
+                    class = "cardLogo"
+                    :productLogo="productInfo.cardNetwork"
+                    :logoDimensions = "logoDimensions"/>
+                <span>{{productInfo.cardNetwork}}</span>
+            </div>
             <div class="productDetail">Protocol Version</div>
             <div class="productDetail">{{productInfo.version}}</div>
 
@@ -22,11 +29,21 @@
 </template>
 
 <script lang="ts">
+import { ProductType } from '@/constants/constants';
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import ProductListItemLogo from './ProductListItemLogo.vue';
 
-@Component({})
+@Component({
+    components : {
+        ProductListItemLogo
+    }
+})
 export default class ProductDetailBasic extends Vue {
-    @Prop() productInfo : object|undefined;   
+    @Prop() productInfo !: ProductType;
+    logoDimensions : object = {
+        width: '40px',
+        height: '40px',
+    }   
 }
 </script>
 
@@ -39,17 +56,34 @@ export default class ProductDetailBasic extends Vue {
 }
 
 .bodyHeader {
-    margin: 20px;
+    margin: 10px;
     text-align: left;
     font-size: 30px;
     font-weight: bold;
     color: blue;
 }
-
+.Wrapper {
+    margin: 10px;
+    height: 650px;
+    width: 90vw;
+    border: 2px solid blue;;
+}
 .productDetail {
     margin: 10px;
     text-align: left;
     font-size: 20px;;
+    align-items: center;
+}
+
+.cardLogo {
+    height: 40px;
+    width: 40px;
+    display: inline-block;
+}
+span {
+    position: relative;
+    bottom: 15px;
+    left: 10px;
 }
 
 </style>

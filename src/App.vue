@@ -1,8 +1,23 @@
 <template>
-  <div id="app">
-    <router-view/>
+  <div>
+    <AppLayout/>
+    <div id="app">
+      <router-view/>
+    </div>
   </div>
 </template>
+
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+import AppLayout from './components/layout/AppLayout.vue'
+
+@Component({
+  components: {
+    AppLayout,
+  }
+})
+export default class Details extends Vue {}
+</script>
 
 <style lang="scss">
 #app {

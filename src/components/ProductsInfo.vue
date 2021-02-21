@@ -1,6 +1,5 @@
 <template>
     <div>
-        <MyHeader/>
         <div class = "topContainer">
             <div>
                 <div class = "title">Products</div>
@@ -24,19 +23,21 @@
 import { Component, Vue } from 'vue-property-decorator';
 import ProductsInfoItem from './ProductsInfoItem.vue';
 import MyHeader from './MyHeader.vue';
-
+import { ProductType } from '../constants/constants'
 @Component({
     components: { 
         ProductsInfoItem,
         MyHeader }
 })
 export default class ProductsInfo extends Vue {
-    productcardItems: object[] = [];
+    productcardItems: ProductType[] = [];
 
     mounted() {
         let productObjArr = JSON.parse(<string>localStorage.getItem('dataId'));
         for(let i=0 ; i<productObjArr.length ; i++) {
-            this.productcardItems.push(productObjArr[i]);
+            productObjArr[i].aavAlgorithm = undefined;
+            productObjArr[i].keyBundleId = undefined;
+            this.productcardItems.push(productObjArr[i])
         }
         console.log(this.productcardItems);
     }
@@ -79,7 +80,7 @@ export default class ProductsInfo extends Vue {
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-rows: 300px;
     align-items: center;
-    grid-gap: 10px;
+    grid-gap: 20px;
 }
 .productItem {
     border: 2px solid black;

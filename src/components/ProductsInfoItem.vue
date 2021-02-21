@@ -2,7 +2,8 @@
 <div 
     @click="goToDetail()"
     class="productItem">
-    <ProductListItemLogo :productLogo="productItem.cardNetwork"/>
+    <ProductListItemLogo :productLogo="productItem.cardNetwork"
+    :logoDimensions = "logoDimensions"/>
     <div class = "productName">{{productItem.name}}</div>
     <div class="productID"> 
         <span>{{productItem.id}}</span>
@@ -21,7 +22,10 @@ import ProductListItemLogo from './ProductListItemLogo.vue';
 })
 export default class ProductsInfoItem extends Vue {
     @Prop() productItem: object|undefined;
-
+    logoDimensions : object = {
+        width: '75px',
+        height: '75px',
+    } 
     goToDetail() {
         this.$emit('display-details')
     }
@@ -30,11 +34,11 @@ export default class ProductsInfoItem extends Vue {
 
 <style scoped lang="scss">
 .productItem {
-    height: 200px
+    height: 250px;
 }
 .productName{
     font-weight: bold;
-    font-size: 30px;
+    font-size: 20px;
     padding: 20px
 }
 .productID {

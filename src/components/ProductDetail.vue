@@ -1,12 +1,12 @@
 <template>
     <div>
-        <MyHeader/>
         <div class = "topContainer">
             <div>
                 <div class = "title">{{productInfo.name}}</div>
                 <div>{{productInfo.description}}</div>
             </div>
-            <button @click="goToEdit()">Edit</button>
+            <button @click="goToEdit()"
+                class="btn">Edit</button>
         </div>
         <ProductDetailBasic :productInfo = "productInfo"/>
   </div>
@@ -16,14 +16,15 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import ProductDetailBasic from './ProductDetailBasic.vue';
 import MyHeader from './MyHeader.vue'
+import { ProductType } from '@/constants/constants';
 
 @Component({
     components: { ProductDetailBasic,
     MyHeader }
 })
 export default class ProductDetail extends Vue {
-    @Prop() productId: string|undefined;
-    productInfo : object|undefined;
+    @Prop() productId!: string;
+    productInfo !: ProductType;
 
     created() {
         let productObjArr = JSON.parse(<string>localStorage.getItem('dataId'));
@@ -63,5 +64,8 @@ export default class ProductDetail extends Vue {
     font-size: 30px;
     font-weight: bold;
     text-align: left;
+}
+.btn {
+    cursor: pointer;
 }
 </style>

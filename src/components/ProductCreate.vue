@@ -1,6 +1,5 @@
 <template>
     <div>
-        <MyHeader/>
         <div class = "topContainer">
             <div>
                 <div class = "title">Create Product</div>

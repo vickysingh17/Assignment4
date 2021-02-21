@@ -12,7 +12,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component
-export default class ProductsInfoItem extends Vue {
+export default class MyHomeButton extends Vue {
     goToHome () {
         this.$router.push({name: 'Home'});
     }
