@@ -2,52 +2,51 @@
     <div>
         <div class = "topContainer">
             <div>
-                <div class = "title">Products</div>
+                <div class = "pageTitle">Products</div>
                 <div>An Overview of all your products available in Authentication Center</div>
             </div>
-            <button @click="goToCreate()">Create</button>
+            <button @click="goToCreatePage()">Create Product</button>
         </div>
-        <div class = "displayWrapper">
-            <ProductsInfoItem 
+        <div class = "contentWrapper">
+            <ProductListItem 
                 v-for="(item, index) in productcardItems"
                 :key="index" 
                 :productItem="item"
                 class = "productItem"
-                @display-details="goToDetail(item.id)">
-            </ProductsInfoItem>
+                @display-details="goToDetailPage(item.id)">
+            </ProductListItem>
         </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import ProductsInfoItem from './ProductsInfoItem.vue';
-import MyHeader from './MyHeader.vue';
-import { ProductType } from '../constants/constants'
+import ProductListItem from './ProductListItem.vue';
+import { productType } from '../constants/constants';
+
 @Component({
     components: { 
-        ProductsInfoItem,
-        MyHeader }
+        ProductListItem, 
+    }
 })
-export default class ProductsInfo extends Vue {
-    productcardItems: ProductType[] = [];
+export default class ProductList extends Vue {
+    productcardItems: productType[] = [];
 
-    mounted() {
+    created() {
         let productObjArr = JSON.parse(<string>localStorage.getItem('dataId'));
         for(let i=0 ; i<productObjArr.length ; i++) {
             productObjArr[i].aavAlgorithm = undefined;
             productObjArr[i].keyBundleId = undefined;
             this.productcardItems.push(productObjArr[i])
         }
-        console.log(this.productcardItems);
     }
 
-    goToDetail(productId:string) {
+    goToDetailPage(productId:string) {
         // console.log(productId);
         this.$router.push({name:'Details',params:{Pid:productId}})
     }
 
-    goToCreate() {
+    goToCreatePage() {
         // console.log(productId);
         this.$router.push({name:'Create'})
     }
@@ -68,14 +67,19 @@ export default class ProductsInfo extends Vue {
 
 .topContainer > button {
     height: 50px;
-    width: 100px;
+    width: 150px;
+    color: black;
+    font-size: 15px;
+    cursor: pointer;
+    background-color: lightblue;
+    border: 2px solid black;
 }
-.title {
+.pageTitle {
     font-size: 30px;
     font-weight: bold;
     text-align: left;
 }
-.displayWrapper {
+.contentWrapper {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-rows: 300px;
@@ -88,7 +92,4 @@ export default class ProductsInfo extends Vue {
     height:250px;
 }
 
-.topContainer > button {
-    cursor:pointer;
-}
 </style>

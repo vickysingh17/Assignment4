@@ -1,39 +1,76 @@
 <template>
-    <div>
+    <div v-if="productFound">
         <div class = "topContainer">
             <div>
-                <div class = "title">Edit Product</div>
+                <div class = "pageTitle">Edit Product</div>
             </div>
         </div>
-        <ProductEditInfo 
-            :productInfo = "productInfo"
-            class="editContainer"/>
+
+        <ProductForm 
+        :productInfo = "productInfo"
+        functionality="Edit"
+        @save-changes="updateChanges"> Update </ProductForm>
   </div>
+  <div v-else>
+      <ProductNotFound />
+  </div>
+
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import ProductEditInfo from './ProductEditInfo.vue';
-import MyHeader from './MyHeader.vue';
-import { ProductType } from '@/constants/constants';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import { productType, getDefaultOject } from '@/constants/constants';
+import ProductForm from './ProductForm.vue'
+import ProductNotFound from './ProductNotFound.vue';
 
 @Component({
-    components: { ProductEditInfo,
-    MyHeader }
+    components: { 
+        ProductForm,
+        ProductNotFound,
+    }
 })
 export default class ProductDetail extends Vue {
     @Prop() productId!: string;
-    productInfo!: ProductType;
+    productInfo!: productType; //=  getDefaultOject();
+    productFound: boolean = false;
 
+    @Watch('productId')
+    onPropertyChanged(value: string, oldValue: string) {
+        this.productFound = false;
+        let productObjArr = JSON.parse(<string>localStorage.getItem('dataId'));
+        for(let i=0 ; i<productObjArr.length ; i++) {
+            if(productObjArr[i].id === value) {
+                this.productInfo = productObjArr[i];
+                this.productFound = true;
+                break;
+            }
+        }
+
+    }
+    
     created() {
+
+        this.productFound = false;
         let productObjArr = JSON.parse(<string>localStorage.getItem('dataId'));
         for(let i=0 ; i<productObjArr.length ; i++) {
             if(productObjArr[i].id === this.productId) {
                 this.productInfo = productObjArr[i];
+                this.productFound = true;
                 break;
             }
         }
-        console.log(this.productInfo);
+    }
+
+    updateChanges(productInfo:productType) {
+        let productObjArr = JSON.parse(<string>localStorage.getItem('dataId'));
+        for(let i=0 ; i<productObjArr.length ; i++) {
+            if(productObjArr[i].id === this.productInfo.id) {
+                productObjArr[i] = productInfo;
+                break;
+            }
+        }
+        localStorage.setItem('dataId', JSON.stringify(productObjArr));
+        this.$router.push({name: 'Home'});
     }
 
 }
@@ -51,16 +88,10 @@ export default class ProductDetail extends Vue {
   padding: 10px;
 }
 
-.title {
+.pageTitle {
     font-size: 30px;
     font-weight: bold;
     text-align: left;
 }
 
-.editContainer {
-    border: 2px solid blue;
-    margin: 20px;
-    height: 650px;
-    width: 90vw;
-}
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ProductDetail :productId = "productId"></ProductDetail>
+    <ProductDetail :productId = "$route.params.Pid"></ProductDetail>
   </div>
 </template>
 
@@ -14,10 +14,8 @@ import ProductDetail from '@/components/ProductDetail.vue';
   },
 })
 export default class Details extends Vue {
-    productId: string|undefined;
-
-    created () {
-        this.productId = this.$route.params.Pid;
-    }
+  created () {
+    console.log('Details component created');
+  }
 }
 </script>

@@ -96,24 +96,41 @@ export const cardNetworkLogos =  {
     }
 }
 
-export const aavAlogrithmOptions = ["", "SPA with CVC2" , "SPA with CVC2(without MerchantName hash)", 
+export const aavAlogrithmOptions = ["undefined", "SPA with CVC2" , "SPA with CVC2(without MerchantName hash)", 
                             "SPA with HMAC", "SPA with HMAC(without MerchantName hash)"];
 
 export const cardNetworkOptions = ["visa", "mastercard", "rupay", "amex", "maestro"];
 
 export const protocolVersions = [ "threeDSecure_1_0", "threeDSecure_2_0"];
 
-export type ProductType = {
+export type productType = {
     version: string;
     cardNetwork: string;
     id: string;
     config: {
         connectorURL: string,
     };
-    aavAlgorithm: string;
-    keyBundleId: string;
+    aavAlgorithm: string|undefined;
+    keyBundleId: string|undefined;
     name:string;
     description: string;
     bin: string;
     authPlans: string[]
 };
+
+export function getDefaultOject():productType {
+    return { 
+        version: "threeDSecure_1_0",
+        cardNetwork: "visa",
+        id: 'PR' + Math.floor(7 + Math.random() * 10000),
+        config: {
+            connectorURL: '',
+        },
+        aavAlgorithm: undefined,
+        keyBundleId: undefined,
+        name:'',
+        description: '',
+        bin: '',
+        authPlans: [],
+    };
+}

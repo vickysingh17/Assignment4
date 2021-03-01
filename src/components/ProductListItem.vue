@@ -1,9 +1,12 @@
 <template>
 <div 
-    @click="goToDetail()"
+    @click="goToDetailPage()"
     class="productItem">
-    <ProductListItemLogo :productLogo="productItem.cardNetwork"
-    :logoDimensions = "logoDimensions"/>
+
+    <ProductCardLogo 
+        :productLogo="productItem.cardNetwork"
+        :logoDimensions = "logoDimensions"/>
+
     <div class = "productName">{{productItem.name}}</div>
     <div class="productID"> 
         <span>{{productItem.id}}</span>
@@ -14,19 +17,20 @@
 </template>
 
 <script lang="ts">
+import { productType } from '@/constants/constants';
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import ProductListItemLogo from './ProductListItemLogo.vue';
+import ProductCardLogo from './ProductCardLogo.vue';
 
 @Component({
-    components: {ProductListItemLogo}
+    components: {ProductCardLogo}
 })
-export default class ProductsInfoItem extends Vue {
-    @Prop() productItem: object|undefined;
+export default class ProductListItem extends Vue {
+    @Prop() productItem!: productType;
     logoDimensions : object = {
         width: '75px',
         height: '75px',
     } 
-    goToDetail() {
+    goToDetailPage() {
         this.$emit('display-details')
     }
 }

@@ -2,25 +2,36 @@
     <div>
         <div class = "topContainer">
             <div>
-                <div class = "title">Create Product</div>
+                <div class = "pageTitle">Create Product</div>
             </div>
         </div>
-        <ProductCreateItem
-        class="createContainer"/>
+
+        <ProductForm 
+        :productInfo = "productInfo"
+        @save-changes = "addNewEntry">Create</ProductForm>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import ProductCreateItem from './ProductCreateItem.vue';
-import MyHeader from './MyHeader.vue';
+import { Component, Vue } from 'vue-property-decorator';
+import ProductForm from './ProductForm.vue';
+import { productType, getDefaultOject } from '@/constants/constants';
 
 @Component({
-    components: { ProductCreateItem,
-    MyHeader }
+    components: { 
+        ProductForm ,
+    }
 })
 export default class ProductCreate extends Vue {
+    productInfo : productType = getDefaultOject();
 
+    addNewEntry(newProduct:productType) {
+        let productObjArr = JSON.parse(<string>localStorage.getItem('dataId'));
+        newProduct.id = 'PR' + (productObjArr.length+1);
+        productObjArr.unshift(newProduct);
+        localStorage.setItem('dataId', JSON.stringify(productObjArr));
+        this.$router.push({name: 'Home'});
+    }
 }
 </script>
 
@@ -40,17 +51,11 @@ export default class ProductCreate extends Vue {
     height: 50px;
     width: 100px;
 }
-.title {
+
+.pageTitle {
     font-size: 30px;
     font-weight: bold;
     text-align: left;
 }
 
-.createContainer {
-
-    border: 2px solid blue;
-    margin: 20px;
-    height: 650px;
-    width: 90vw;
-}
 </style>

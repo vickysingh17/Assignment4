@@ -1,17 +1,18 @@
 <template>
 <div>
-    <div class="headerContainer">
-        <div class='bodyHeader'>Basic Information</div>
+    <div class="formHeader">
+        <div class='formTitle'>Basic Information</div>
         <div>Enter the basic details about your product</div>
     </div>
-    <div class="container">
+    <div class="form">
+
         <!-- First Entry In the form-->
         <label class="label">Product Name</label>
         <div>
         <input type="text" 
             v-model="productInfo.name"
             :class= "{error : (errors.nameError.length>0)}">
-        <MyError v-if="(errors.nameError.length>0)">{{errors.nameError}}</MyError>
+        <ProductFormError v-if="(errors.nameError.length>0)">{{errors.nameError}}</ProductFormError>
         </div>
 
         <!-- Second Entry In the form-->
@@ -23,10 +24,10 @@
         <div>
             <select v-model="productInfo.keyBundleId"
                 :class= "{error : (errors.keyBundleIdError.length>0)}">
-                <option value="">Select Key Bundle ID</option>
+                <option value="undefined">Select Key Bundle ID</option>
                 <option value ="KEY00039">KEY00039</option>
             </select>
-            <MyError v-if="(errors.keyBundleIdError.length>0)">{{errors.keyBundleIdError}}</MyError>
+            <ProductFormError v-if="(errors.keyBundleIdError.length>0)">{{errors.keyBundleIdError}}</ProductFormError>
         </div>
 
         <!-- Fourth Entry In the form-->
@@ -42,12 +43,9 @@
                         :value="option">
                         {{option[0].toUpperCase() + option.slice(1)}}
                     </option>
-                    <!-- <option value="mastercard" >Mastercard</option>
-                    <option value="rupay">Rupay</option>
-                    <option value="amex">Amex</option>
-                    <option value="maestro">Maestro</option> -->
                 </select>
             </div>
+            
             <!-- Fifth Entry In the form-->
             <div>
                 <label class="label">Protocol Version</label>
@@ -71,14 +69,14 @@
                     v-for = "(option, index) in AAVAlogrithmOptions"
                     :key="index"
                     :value = "option">
-                    {{option ? option: "Select AAV Algorithm"}}
+                    {{option==="undefined" ? "Select AAV Algorithm":option}}
                 </option>
                 <!-- <option value ="SPA with CVC2">SPA with CVC2</option>
                 <option value ="SPA with CVC2(without MerchantName hash)">SPA with CVC2(without MerchantName hash)</option>
                 <option value ="SPA with HMAC">SPA with HMAC</option>
                 <option value ="SPA with HMAC(without MerchantName hash)">SPA with HMAC(without MerchantName hash)</option> -->
             </select>
-            <MyError v-if="(errors.aavAlgorithmError.length>0)">{{errors.aavAlgorithmError}}</MyError>
+            <ProductFormError v-if="(errors.aavAlgorithmError.length>0)">{{errors.aavAlgorithmError}}</ProductFormError>
         </div>
 
         <!-- Seventh Entry In the form-->
@@ -87,13 +85,13 @@
             <input type="text" v-model="productInfo.bin" 
                 :class= "{error: (errors.binNumberError.length>0)}"
                 :disabled='functionality==="Edit"'>
-            <MyError v-if="(errors.binNumberError.length>0)">{{errors.binNumberError}}</MyError>
+            <ProductFormError v-if="(errors.binNumberError.length>0)">{{errors.binNumberError}}</ProductFormError>
         </div>
 
 
         <button @click="checkErrorsAndEmit()"><slot></slot></button>
         <button
-            @click="goToHome()">
+            @click="goToHomePage()">
             Cancel
         </button>
 
@@ -103,8 +101,8 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import MyError from './MyError.vue';
-import { ProductType, aavAlogrithmOptions, cardNetworkOptions, protocolVersions } from '../constants/constants';
+import ProductFormError from './ProductFormError.vue';
+import { productType, aavAlogrithmOptions, cardNetworkOptions, protocolVersions } from '../constants/constants';
 // import { Error } from '../models/product.model'
 
 
@@ -116,10 +114,10 @@ type errorObjType =  {
 }
 
 @Component({
-    components: {MyError}
+    components: {ProductFormError}
 })
-export default class ProductItemForm extends Vue {
-    @Prop() productInfo!: ProductType;
+export default class ProductForm extends Vue {
+    @Prop() productInfo!: productType;
     @Prop() functionality!: string;
     errors : errorObjType = {
         nameError : '',
@@ -133,7 +131,7 @@ export default class ProductItemForm extends Vue {
     errorFound: boolean = false;
     
 
-    goToHome() {
+    goToHomePage() {
         this.$router.push({name: 'Home'});
     }
 
@@ -172,49 +170,47 @@ export default class ProductItemForm extends Vue {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 
-.bodyHeader {
+.formTitle {
     font-size: 20px;
     font-weight: bold;
     color: blue;
 }
 
-.headerContainer{
+.formHeader{
     text-align: left;
     padding-left: 10px;
 }
 
-.container {
-  border-radius: 5px;
-  padding: 20px;
-  width: 700px;
+.form {
+    padding: 20px;
 }
 
 input[type=text]{
-  width: 300px;
-  padding: 12px 20px;
-  margin: 8px 0;
-  border-radius: 4px;
-  box-sizing: border-box;
+    width: 300px;
+    padding: 12px 20px;
+    margin: 8px 0;
+    border-radius: 4px;
+    box-sizing: border-box;
 }
 
 select {
     width: 300px;
-  padding: 12px 20px;
-  margin: 8px 0;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
+    padding: 12px 20px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
 }
 
 button {
-  width: 100px;
-  background-color: blue;
-  color: white;
-  padding: 10px 20px;
-  margin: 5px 0;
-  border: none;
-  cursor: pointer;
-  margin-right: 20px;
+    width: 100px;
+    background-color: blue;
+    color: white;
+    padding: 10px 20px;
+    margin: 5px 0;
+    border: none;
+    cursor: pointer;
+    margin-right: 20px;
 }
 
 textarea {
@@ -232,17 +228,9 @@ textarea {
     width: 700px;
     justify-content: space-between;
 }
+
 .error {
     border: 2px solid red;
 }
 
-.errorMessage{
-    color: red;
-    padding-left: 10px;
-}
-.errorMessage > img {
-    height: 15px;
-    width: 15px;
-
-}
 </style>

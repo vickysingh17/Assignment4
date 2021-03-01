@@ -13,6 +13,5 @@ import ProductCreate from '@/components/ProductCreate.vue';
     ProductCreate,
   },
 })
-export default class Details extends Vue {
-}
+export default class Details extends Vue {}
 </script>

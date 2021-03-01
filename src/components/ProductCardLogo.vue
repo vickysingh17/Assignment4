@@ -12,11 +12,11 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
 @Component
-export default class ProductListItemLogo extends Vue {
+export default class ProductCardLogo extends Vue {
     @Prop() productLogo!: string;
     @Prop() logoDimensions !: object;
-    imageURL : string = '';
-    bgColor: string = '';
+    imageURL!: string ;
+    bgColor!: string;
  
     created () {
         let cardNetworkArr = JSON.parse(<string>localStorage.getItem('cardNetwork'));
@@ -26,9 +26,3 @@ export default class ProductListItemLogo extends Vue {
 }
 </script>
 
-<style scoped lang="scss">
-.logoImage {
-    width: 75px;
-    height:75px;
-}
-</style>

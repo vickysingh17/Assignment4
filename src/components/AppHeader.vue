@@ -1,21 +1,21 @@
 <template>
     <div class="wrapper">
         <div class>
-        <img src = "../assets/zeta-logo.jpeg">
-        <span class="heading">Cipher - Authentication Center</span>
+            <img src = "../assets/zeta-logo.jpeg">
+            <span class="heading">Cipher - Authentication Center</span>
         </div>
-        <MyHomeButton/>
+        <AppHomeButton/>
     </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import MyHomeButton from './MyHomeButton.vue';
+import AppHomeButton from './AppHomeButton.vue';
 
 @Component({
-    components: {MyHomeButton}
+    components: {AppHomeButton}
 })
-export default class MyHeader extends Vue {}
+export default class  extends Vue {}
 </script>
 
 <style scoped lang="scss">

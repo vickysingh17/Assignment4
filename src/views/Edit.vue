@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ProductEdit :productId = "productId"></ProductEdit>
+    <ProductEdit :productId = "$route.params.Pid"></ProductEdit>
   </div>
 </template>
 
@@ -14,10 +14,10 @@ import ProductEdit from '@/components/ProductEdit.vue';
   },
 })
 export default class Details extends Vue {
-    productId: string|undefined;
+    // productId!: string;
 
-    created () {
-        this.productId = this.$route.params.Pid;
-    }
+    // created () {
+    //     this.productId = this.$route.params.Pid;
+    // }
 }
 </script>

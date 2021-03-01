@@ -2,26 +2,28 @@
 <div>
     <img 
         src = "../assets/Home.gif"
-        @click="goToHome()"
+        @click="goToHomePage()"
         class="homeButton">
 </div>
 
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 
 @Component
-export default class MyHomeButton extends Vue {
-    goToHome () {
+export default class AppHomeButton extends Vue {
+    goToHomePage () {
         this.$router.push({name: 'Home'});
     }
 }
 </script>
 
 <style scoped lang="scss">
+
 .homeButton {
     height: 50px;
     cursor: pointer;
 }
+
 </style>
